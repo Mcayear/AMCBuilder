@@ -1,0 +1,15 @@
+name: AMCBuilder
+main: main.js # JS入口文件，应该导出一个main函数（如main.js）
+version: "1.2.3"
+api: ["1.0.13"] # API版本，PNX从1.0.13起开始支持JS插件
+load: POSTWORLD # 插件加载顺序，只能填写 STARTUP 或 POSTWORLD
+# STARTUP: 此时服务器刚启动，地图尚未加载，通常用于依赖库
+# POSTWORLD: 此时服务器所有地图都加载完毕，通常填写POSTWORLD即可
+authors: # 此项可以不存在
+- Mcayear
+depend: # 插件的依赖项，填写依赖插件的名称，如果依赖的插件有一个不存在，那么PNX不会加载这个JS插件，此项可以不存在
+- LiteLoaderLibs
+description: 原子工作室旗下的速建工具
+website: https://amcbuilder.nullatom.com
+features:
+- WsClient
