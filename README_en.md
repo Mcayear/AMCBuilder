@@ -1,7 +1,7 @@
 # 🌐Need to switch languages? / 多语言文档
 
-[![简体中文](https://img.shields.io/badge/简体中文-100%25-green?style=flat-square)](https://github.com/mcayear/AMCBuilder/blob/master/README.md)
-[![English](https://img.shields.io/badge/English-100%25-green?style=flat-square)](https://github.com/PowerNukkitX/PowerNukkitX/blob/master/README_en.md)
+[![简体中文](https://img.shields.io/badge/简体中文-100%25-green?style=flat-square)](https://github.com/Mcayear/AMCBuilder/blob/main/README.md)
+[![English](https://img.shields.io/badge/English-100%25-green?style=flat-square)](https://github.com/Mcayear/AMCBuilder/blob/main/README_en.md)
 
  AMCBuilder-LLSE is applicable to most servers to quickly build the main city, map, etc.
 
