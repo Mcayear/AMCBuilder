@@ -1347,30 +1347,44 @@ export function main() {
 	}
 
 	/**
-	 * 生成所选范围的边缘粒子
+	 * 生成立方体八条边缘线的粒子，且不重复生成
+	 * @param {number[]} pos1 最小点坐标
+	 * @param {number[]} pos2 最大点坐标
+	 * @param {string} dimid 世界名字
 	 * @example
-	 * genEdgeParticles([1003, 56, 1164], [1003, 56, 1164], "rpg", 1);
+	 * genEdgeParticles([1003, 56, 1164], [1003, 58, 1164], "rpg");
 	 */
-	function genEdgeParticles(pos1, pos2, dimid, size) {
-		mc.spawnParticle(pos1[0], pos1[1], pos1[2], dimid, Config.particles.name);
-		for (let i = pos1[0]; i <= pos2[0]; i++) {
-			mc.spawnParticle(i + 0.5, pos1[1], pos1[2], dimid, Config.particles.name);
-		}
-		for (let i = pos1[1]; i <= pos2[1]; i++) {
-			mc.spawnParticle(pos1[0], i + 0.5, pos1[2], dimid, Config.particles.name);
-		}
-		for (let i = pos1[2]; i <= pos2[2]; i++) {
-			mc.spawnParticle(pos1[0], pos1[1], i + 0.5, dimid, Config.particles.name);
+	function genEdgeParticles(pos1, pos2, dimid) {
+		const [minX, minY, minZ] = pos1;
+		const [maxX, maxY, maxZ] = pos2.map((num) => num + 1);
+		const particleType = Config.particles.name; // 粒子类型
+
+		// 生成顶面和底面的边缘线
+		for (let x = minX; x <= maxX; x++) {
+			mc.spawnParticle(x, minY, minZ, dimid, particleType);
+			mc.spawnParticle(x, minY, maxZ, dimid, particleType);
+			mc.spawnParticle(x, maxY, minZ, dimid, particleType);
+			mc.spawnParticle(x, maxY, maxZ, dimid, particleType);
 		}
 
-		mc.spawnParticle(pos2[0] + 1, pos2[1] + 1, pos2[2] + 1, dimid, 'minecraft:lava_drip_particle');
-		mc.spawnParticle(pos2[0] + 0.5, pos2[1] + 1, pos2[2] + 1, dimid, 'minecraft:lava_drip_particle');
-		mc.spawnParticle(pos2[0] + 1, pos2[1] + 0.5, pos2[2] + 1, dimid, 'minecraft:lava_drip_particle');
-		mc.spawnParticle(pos2[0] + 1, pos2[1] + 1, pos2[2] + 0.5, dimid, 'minecraft:lava_drip_particle');
-		if (size < 2) {
-			return;
+		// 生成侧面的边缘线
+		for (let y = minY; y < maxY + 1; y++) {
+			mc.spawnParticle(minX, y, minZ, dimid, particleType);
+			mc.spawnParticle(minX, y, maxZ, dimid, particleType);
+			mc.spawnParticle(maxX, y, minZ, dimid, particleType);
+			mc.spawnParticle(maxX, y, maxZ, dimid, particleType);
+		}
+
+		// 生成前后面的边缘线
+		for (let z = minZ; z < maxZ; z++) {
+			mc.spawnParticle(minX, minY, z, dimid, particleType);
+			mc.spawnParticle(minX, maxY, z, dimid, particleType);
+			mc.spawnParticle(maxX, minY, z, dimid, particleType);
+			mc.spawnParticle(maxX, maxY, z, dimid, particleType);
 		}
 	}
+
+	
 	/**
 	 * Fix the problem that the getPlayer of LLSE dose not work.
 	 * @issue: https://github.com/LiteLDev/LiteLoaderBDS/issues/866
