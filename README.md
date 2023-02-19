@@ -1,7 +1,7 @@
 # 🌐Need to switch languages? / 多语言文档
 
-[![简体中文](https://img.shields.io/badge/简体中文-100%25-green?style=flat-square)](https://github.com/mcayear/AMCBuilder/blob/master/README.md)
-[![English](https://img.shields.io/badge/English-100%25-green?style=flat-square)](https://github.com/PowerNukkitX/PowerNukkitX/blob/master/README_en.md)
+[![简体中文](https://img.shields.io/badge/简体中文-100%25-green?style=flat-square)](https://github.com/Mcayear/AMCBuilder/blob/main/README.md)
+[![English](https://img.shields.io/badge/English-100%25-green?style=flat-square)](https://github.com/Mcayear/AMCBuilder/blob/main/README_en.md)
 
 
 # 简介
@@ -15,9 +15,9 @@ AMCBuilder-LiteLoader 适用于大部分服务器，用于快速构建主城、�
 
 ![1612231446651.png](https://www.minebbs.com/attachments/1612231446651-png.25528/ "1612231446651.png")
 
-# 没有图片的建筑也可以导入，但是无法确保导入的效果
+#### 没有图片的建筑也可以导入，但是无法确保导入的效果
 
-# AMCBuilder 所有的非原创建筑均来自网络，如有侵犯版权请联系删除
+#### AMCBuilder 所有的非原创建筑均来自网络，如有侵犯版权请联系删除
 
 # 下载&使用
 
