@@ -1,10 +1,10 @@
-# 🌐Need to switch languages? / 多语言文档
+## 🌐Need to switch languages? / 多语言文档
 
 [![简体中文](https://img.shields.io/badge/简体中文-100%25-green?style=flat-square)](https://github.com/Mcayear/AMCBuilder/blob/main/README.md)
 [![English](https://img.shields.io/badge/English-100%25-green?style=flat-square)](https://github.com/Mcayear/AMCBuilder/blob/main/README_en.md)
 
 
-# 简介
+## 简介
 
 > 作为一款自2020年7月开始运营 ~~老牌~~ 的建筑导入软件，AMCBuilder一直致力于给网易用户提供建筑导入方案，已累计收获用户3000+，已有930人的用户群，注册用户达730个。
 现在，我们正式推出了AMCBuilder针对于BDS服务器的解决方案——AMCBuilder-LiteLoader。
@@ -19,7 +19,7 @@ AMCBuilder-LiteLoader 适用于大部分服务器，用于快速构建主城、�
 
 #### AMCBuilder 所有的非原创建筑均来自网络，如有侵犯版权请联系删除
 
-# 下载&使用
+## 下载&使用
 
 - 依赖: LiteLoader [https://www.minebbs.com/resources/liteloaderbds-x-bds.2059/](https://www.minebbs.com/resources/liteloaderbds-x-bds.2059/)
 
@@ -44,10 +44,17 @@ AMCBuilder-LiteLoader 适用于大部分服务器，用于快速构建主城、�
 
 导出的本地文件保存在 `./plugins/AMCBuilder/export`
 
-# 注意事项
+## 注意事项
 
 如果不使用 `/amcb pos1` 那么每次执行命令都将使用玩家自身坐标
 为了追求极限的效率，导出没有进度条提示
 
-# BUG请在github反馈 👇
+
+## 🔭最近关注
+
+这里展示的是最近Star了**AMCBuilder**项目的用户
+
+[![Stargazers repo roster for @mcayear](https://reporoster.com/stars/Mcayear/AMCBuilder)](https://github.com/Mcayear/AMCBuilder/stargazers)
+
+## BUG请在github反馈 👇
 https://github.com/mcayear/amcbuilder/issues
