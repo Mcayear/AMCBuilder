@@ -1,6 +1,6 @@
 import {
     mc
-} from '@LiteLoaderLibs/index.js';
+} from '@LLSELib/index.js';
 
 const lang = {
     "form_main_btn_up": "上升到最顶层的方块",
