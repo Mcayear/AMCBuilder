@@ -1212,7 +1212,6 @@ export function main() {
 		AMCBPlayer.sendToast('§b[AMCBuilder]', '粘贴成功 用时:' + (finishTime / 1000).toFixed(2) + 's');
 	}
 	function cmdFillHandle(sender, args) {
-		console.log(JSON.stringify(args))
 		var AMCBPlayer = sender.getExtraData("AMCBPlayer__");
 		try {
 			if (typeof (AMCBPlayer.data.pos[0]) != 'object') throw 'pos1';
