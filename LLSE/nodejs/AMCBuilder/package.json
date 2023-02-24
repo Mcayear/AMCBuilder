@@ -1,0 +1,21 @@
+{
+  "name": "AMCBuilder",
+  "version": "1.2.4",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "directories": {
+    "util": "util"
+  },
+  "pkg": {
+    "assets": [
+      "util/**/*.*"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wn1027",
+  "license": "ISC",
+  "bin": "index.js"
+}

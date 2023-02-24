@@ -1,7 +1,3 @@
-import {
-    mc
-} from '@LiteLoaderLibs/index.js';
-
 const lang = {
     "form_main_btn_up": "上升到最顶层的方块",
     "form_main_btn_show_regin": "显示选区",
@@ -122,6 +118,6 @@ function cmdReplaceForm(AMCBPlayer) {
         }
     });
 }
-export {
+module.exports = {
     MainForm
 };
