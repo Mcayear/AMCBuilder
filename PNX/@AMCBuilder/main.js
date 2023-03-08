@@ -19,7 +19,7 @@ import { MainForm } from "./util/form.js";
 import { writeHistory, undo, redo, clearhistory } from "./util/history.js";
 
 export function main() {
-    const debugMode = true;
+    const debugMode = false;
     const isPNX = true; // false为LLSE环境，true为PNX环境
     const header = "[AMCBuilder] ";
     const worldDimid = ["主世界", "下界", "末地"];
