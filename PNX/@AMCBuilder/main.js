@@ -7,7 +7,7 @@ const {
 } = require("./util/form.js");
 
 const debugMode = false;
-const isPNX = true; // false为LLSE环境，true为PNX环境
+const isPNX = false; // false为LLSE环境，true为PNX环境
 const header = "[AMCBuilder] ";
 const worldDimid = ["主世界", "下界", "末地"];
 const Config = {
