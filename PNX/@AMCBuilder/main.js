@@ -19,7 +19,7 @@ import { MainForm } from "./util/form.js";
 import { writeHistory, undo, redo, clearhistory } from "./util/history.js";
 
 export function main() {
-    const debugMode = false;
+    const debugMode = true;
     const isPNX = true; // false为LLSE环境，true为PNX环境
     const header = "[AMCBuilder] ";
     const worldDimid = ["主世界", "下界", "末地"];
@@ -34,29 +34,29 @@ export function main() {
         serverVersion[0] > 0 && serverVersion[1] > 18 ? true : false;
     serverVersion = null;
     const ErrorIDList = {
-        double_stone_slab: ["double_stone_block_slab"],
-        stone_slab: ["stone_block_slab"],
-        spruce_fence: ["fence", 1],
-        birch_fence: ["fence", 2],
-        jungle_fence: ["fence", 3],
-        acacia_fence: ["fence", 4],
-        dark_oak_fence: ["fence", 5],
-        white_shulker_box: ["shulker_box", 0],
-        orange_shulker_box: ["shulker_box", 1],
-        magenta_shulker_box: ["shulker_box", 2],
-        light_blue_shulker_box: ["shulker_box", 3],
-        yellow_shulker_box: ["shulker_box", 4],
-        lime_shulker_box: ["shulker_box", 5],
-        pink_shulker_box: ["shulker_box", 6],
-        gray_shulker_box: ["shulker_box", 7],
-        silver_shulker_box: ["shulker_box", 8],
-        cyan_shulker_box: ["shulker_box", 9],
-        purple_shulker_box: ["shulker_box", 10],
-        blue_shulker_box: ["shulker_box", 11],
-        brown_shulker_box: ["shulker_box", 12],
-        green_shulker_box: ["shulker_box", 13],
-        red_shulker_box: ["shulker_box", 14],
-        black_shulker_box: ["shulker_box", 15],
+        double_stone_slab: ["minecraft:double_stone_block_slab"],
+        stone_slab: ["minecraft:stone_block_slab"],
+        spruce_fence: ["minecraft:fence", 1],
+        birch_fence: ["minecraft:fence", 2],
+        jungle_fence: ["minecraft:fence", 3],
+        acacia_fence: ["minecraft:fence", 4],
+        dark_oak_fence: ["minecraft:fence", 5],
+        white_shulker_box: ["minecraft:shulker_box", 0],
+        orange_shulker_box: ["minecraft:shulker_box", 1],
+        magenta_shulker_box: ["minecraft:shulker_box", 2],
+        light_blue_shulker_box: ["minecraft:shulker_box", 3],
+        yellow_shulker_box: ["minecraft:shulker_box", 4],
+        lime_shulker_box: ["minecraft:shulker_box", 5],
+        pink_shulker_box: ["minecraft:shulker_box", 6],
+        gray_shulker_box: ["minecraft:shulker_box", 7],
+        silver_shulker_box: ["minecraft:shulker_box", 8],
+        cyan_shulker_box: ["minecraft:shulker_box", 9],
+        purple_shulker_box: ["minecraft:shulker_box", 10],
+        blue_shulker_box: ["minecraft:shulker_box", 11],
+        brown_shulker_box: ["minecraft:shulker_box", 12],
+        green_shulker_box: ["minecraft:shulker_box", 13],
+        red_shulker_box: ["minecraft:shulker_box", 14],
+        black_shulker_box: ["minecraft:shulker_box", 15],
     };
 
     const DropBlocks = [
@@ -89,6 +89,7 @@ export function main() {
         "carrots", // 胡萝卜
         "lever", // 拉杆
         "deadbush", // 枯萎的灌木
+        "lantern"// 灯
     ];
     ll.registerPlugin(
         "AMCBuilder",
@@ -96,7 +97,7 @@ export function main() {
         {
             major: 1,
             minor: 2,
-            revision: 4,
+            revision: 5,
         },
         {
             Author: "Mcayear",
@@ -198,7 +199,7 @@ export function main() {
     mc.listen("onServerStarted", () => {
         let cmd = mc.newCommand(
             "amcbuilder",
-            "a mc builder|一MC建筑者",
+            "一MC建筑者",
             PermType.Any
         );
         cmd.setAlias("amcb");
@@ -211,7 +212,6 @@ export function main() {
         cmd.setEnum("CloudAction", ["connect", "start", "disconnect"]);
         cmd.setEnum("NoiseAction", ["n", "noise"]);
         cmd.setEnum("HelpAction", ["help"]);
-        cmd.setEnum("TestAction", ["test"]);
         cmd.setEnum("-air", ["-air"]);
         cmd.setEnum("-loca", ["-loca"]);
 
@@ -224,9 +224,8 @@ export function main() {
         cmd.mandatory("action", ParamType.Enum, "CloudAction", 1);
         cmd.mandatory("action", ParamType.Enum, "NoiseAction", 1);
         cmd.mandatory("action", ParamType.Enum, "HelpAction", 1);
-        cmd.mandatory("action", ParamType.Enum, "TestAction", 1);
-        cmd.mandatory("fileName", ParamType.String);
         cmd.mandatory("blockId", ParamType.Block);
+        cmd.optional("fileName", ParamType.String);
         cmd.optional("position", ParamType.BlockPos);
         cmd.optional("x", ParamType.Int);
         cmd.optional("y", ParamType.Int);
@@ -238,7 +237,7 @@ export function main() {
 
         cmd.overload(["SetPosAction"]);
         cmd.overload(["SetPosAction", "position", "dimId"]);
-        cmd.overload(["ChangeAction", "fileName"]);
+        cmd.overload(["ChangeAction"]);
         cmd.overload(["ChangeAction", "fileName", "-loca", "-air"]);
         cmd.overload(["FillAction", "blockId", "metaId"]);
         cmd.overload(["CopyAction"]);
@@ -247,7 +246,6 @@ export function main() {
         cmd.overload(["CloudAction"]);
         cmd.overload(["NoiseAction"]);
         cmd.overload(["HelpAction"]);
-        cmd.overload(["TestAction"]);
         cmd.setCallback(AMCBCommandHandle);
         cmd.setup();
     });
@@ -301,7 +299,7 @@ export function main() {
             }
             case "1":
             case "pos1": {
-                if (Object.keys(res).length > 1) {
+                if (res.position) {
                     AMCBPlayer.updatePos(
                         {
                             x: res.position.x,
@@ -324,7 +322,7 @@ export function main() {
             }
             case "2":
             case "pos2": {
-                if (Object.keys(res).length > 1) {
+                if (res.position) {
                     AMCBPlayer.updatePos(
                         {
                             x: res.position.x,
@@ -366,10 +364,6 @@ export function main() {
             }
             case "refail": {
                 AMCBPlayer.reFailBlocks();
-                break;
-            }
-            case "test": {
-                log(JSON.stringify(sender.getNbt().toObject()));
                 break;
             }
             default:
@@ -1403,7 +1397,7 @@ export function main() {
             }
         }
     }
-    async function cmdImportHandle(sender, args) {
+    function cmdImportHandle(sender, args) {
         var AMCBPlayer = sender.getExtraData("AMCBPlayer__"),
             finishTime = 0;
         let startPos = [];
@@ -1414,7 +1408,7 @@ export function main() {
             return AMCBPlayer.tell("less_1_points", 0, [header]);
         }
         const isSolid = args.indexOf("-air") == -1;
-        if (args.length < 2) {
+        if (args.length < 2 || !args[0]) {
             // 构建选择表单窗口
             if (!sender.realName) {
                 return logger.info("pls use, /amcb import <filename>");
@@ -1440,11 +1434,11 @@ export function main() {
                 } else {
                     return;
                 }
-                if (fileName.indexOf(".txt") > -1) {
+                if (fileName.toLowerCase().endsWith(".txt")) {
                     args_.push("--txt");
-                } else if (fileName.indexOf(".bdx") > -1) {
+                } else if (fileName.toLowerCase().endsWith(".bdx")) {
                     args_.push("--bdx");
-                } else if (fileName.indexOf(".mcstructure") > -1) {
+                } else if (fileName.toLowerCase().endsWith(".mcstructure")) {
                     args_.push("--mcs");
                 }
                 data[1] && args_.push("-air");
@@ -1452,6 +1446,17 @@ export function main() {
                 cmdImportHandle(player, args_);
             });
             return;
+        }
+        let hasFileType = false;
+        if (args[0].toLowerCase().endsWith(".txt")) {
+            args.push("--txt");
+            hasFileType = true;
+        } else if (args[0].toLowerCase().endsWith(".bdx")) {
+            args.push("--bdx");
+            hasFileType = true;
+        } else if (args[0].toLowerCase().endsWith(".mcstructure")) {
+            args.push("--mcs");
+            hasFileType = true;
         }
         if (args.indexOf("-loca") > -1)
             startPos = [
@@ -1462,7 +1467,9 @@ export function main() {
         var cmdCount = 0;
         if (args.indexOf("--txt") > -1) {
             let fileContext = File.readFrom(
-                "./plugins/AMCBuilder/export/" + args[0] + ".txt"
+                "./plugins/AMCBuilder/export/" +
+                    args[0] +
+                    (hasFileType ? "" : ".txt")
             );
             if (!fileContext) {
                 return AMCBPlayer.tell(
@@ -1475,21 +1482,21 @@ export function main() {
             cmdCount = list1.length; // 总数
             fileContext = null;
             AMCBPlayer.failBlocks = []; // 失败的方块
-            await AMCBPlayer.tell(
+            AMCBPlayer.tell(
                 "§b[AMCBuilder] 开始导入 总计" +
                     cmdCount +
                     "个方块 预计需要" +
                     ((cmdCount / 3e3) >> 0) +
                     "s 期间服务器可能无法正常处理事务"
             );
-            await new Promise((resolve, reject) => {
+            new Promise((resolve, reject) => {
                 setTimeout(function () {
                     resolve("time");
                 }, 1000);
             });
 
             const startTime = new Date().getTime();
-            await list1.forEach((v, i) => {
+            list1.forEach((v, i) => {
                 const row = v.split(" ");
                 if (isSolid && row[3] === "air") {
                     return;
@@ -1534,7 +1541,9 @@ export function main() {
             var cmdCount = 0;
             AMCBPlayer.tell("§b[AMCBuilder] 开始导入");
             loadBDX(
-                "./plugins/AMCBuilder/export/" + args[0] + ".bdx",
+                "./plugins/AMCBuilder/export/" +
+                    args[0] +
+                    (hasFileType ? "" : ".bdx"),
                 function (statue, data) {
                     switch (statue) {
                         case 0: {
@@ -1553,22 +1562,22 @@ export function main() {
                             cmdCount++;
                             switch (data.type) {
                                 case "setblock": {
-                                    if (
-                                        mc.setBlock(
-                                            startPos[0] + data.x,
-                                            startPos[1] + data.y,
-                                            startPos[2] + data.z,
-                                            AMCBPlayer.data.dimid,
-                                            data.block.indexOf(":") > -1
-                                                ? data.block
-                                                : "minecraft:" + data.block,
-                                            data.data
-                                        )
-                                    ) {
-                                        //
-                                    } else {
-                                        //TODO: 放置失败时
-                                    }
+                                    const blockMeta = ErrorIDList[
+                                        data.block
+                                    ] || [
+                                        data.block.indexOf(":") > -1
+                                            ? data.block
+                                            : "minecraft:" + data.block,
+                                        data.data,
+                                    ];
+                                    mc.setBlock(
+                                        startPos[0] + data.x,
+                                        startPos[1] + data.y,
+                                        startPos[2] + data.z,
+                                        AMCBPlayer.data.dimid,
+                                        blockMeta[0],
+                                        blockMeta[1]
+                                    );
                                     break;
                                 }
                                 case "cb_data": {
@@ -1677,8 +1686,10 @@ export function main() {
         } else {
             const startTime = new Date().getTime();
 
-            await readMCStructure(
-                "./plugins/AMCBuilder/export/" + args[0] + ".mcstructure",
+            readMCStructure(
+                "./plugins/AMCBuilder/export/" +
+                    args[0] +
+                    (hasFileType ? "" : ".mcstructure"),
                 function (status, data) {
                     switch (status) {
                         case 0: {
