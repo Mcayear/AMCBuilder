@@ -22,31 +22,37 @@ let serverVersion = mc.getBDSVersion().substr(1).split(".");
 const isNewExecuteCommand =
 	serverVersion[0] > 0 && serverVersion[1] > 18 ? true : false;
 serverVersion = null;
-const ErrorIDList = {
-	double_stone_slab: ["double_stone_block_slab"],
-	stone_slab: ["stone_block_slab"],
-	spruce_fence: ["fence", 1],
-	birch_fence: ["fence", 2],
-	jungle_fence: ["fence", 3],
-	acacia_fence: ["fence", 4],
-	dark_oak_fence: ["fence", 5],
-	white_shulker_box: ["shulker_box", 0],
-	orange_shulker_box: ["shulker_box", 1],
-	magenta_shulker_box: ["shulker_box", 2],
-	light_blue_shulker_box: ["shulker_box", 3],
-	yellow_shulker_box: ["shulker_box", 4],
-	lime_shulker_box: ["shulker_box", 5],
-	pink_shulker_box: ["shulker_box", 6],
-	gray_shulker_box: ["shulker_box", 7],
-	silver_shulker_box: ["shulker_box", 8],
-	cyan_shulker_box: ["shulker_box", 9],
-	purple_shulker_box: ["shulker_box", 10],
-	blue_shulker_box: ["shulker_box", 11],
-	brown_shulker_box: ["shulker_box", 12],
-	green_shulker_box: ["shulker_box", 13],
-	red_shulker_box: ["shulker_box", 14],
-	black_shulker_box: ["shulker_box", 15],
-};
+    const ErrorIDList = {
+        double_stone_slab: ["minecraft:double_stone_block_slab"],
+        double_stone_slab2: ["minecraft:double_stone_block_slab2"],
+        double_stone_slab3: ["minecraft:double_stone_block_slab3"],
+        double_stone_slab4: ["minecraft:double_stone_block_slab4"],
+        stone_slab: ["minecraft:stone_block_slab"],
+        stone_slab2: ["minecraft:stone_block_slab2"],
+        stone_slab3: ["minecraft:stone_block_slab3"],
+        stone_slab4: ["minecraft:stone_block_slab4"],
+        spruce_fence: ["minecraft:fence", 1],
+        birch_fence: ["minecraft:fence", 2],
+        jungle_fence: ["minecraft:fence", 3],
+        acacia_fence: ["minecraft:fence", 4],
+        dark_oak_fence: ["minecraft:fence", 5],
+        white_shulker_box: ["minecraft:shulker_box", 0],
+        orange_shulker_box: ["minecraft:shulker_box", 1],
+        magenta_shulker_box: ["minecraft:shulker_box", 2],
+        light_blue_shulker_box: ["minecraft:shulker_box", 3],
+        yellow_shulker_box: ["minecraft:shulker_box", 4],
+        lime_shulker_box: ["minecraft:shulker_box", 5],
+        pink_shulker_box: ["minecraft:shulker_box", 6],
+        gray_shulker_box: ["minecraft:shulker_box", 7],
+        silver_shulker_box: ["minecraft:shulker_box", 8],
+        cyan_shulker_box: ["minecraft:shulker_box", 9],
+        purple_shulker_box: ["minecraft:shulker_box", 10],
+        blue_shulker_box: ["minecraft:shulker_box", 11],
+        brown_shulker_box: ["minecraft:shulker_box", 12],
+        green_shulker_box: ["minecraft:shulker_box", 13],
+        red_shulker_box: ["minecraft:shulker_box", 14],
+        black_shulker_box: ["minecraft:shulker_box", 15],
+    };
 
 const DropBlocks = [
 	"lava", // 岩浆
@@ -1502,7 +1508,7 @@ async function cmdImportHandle(sender, args) {
 		const startTime = new Date().getTime();
 		var cmdCount = 0;
 		AMCBPlayer.tell("§b[AMCBuilder] 开始导入");
-		loadBDX(
+		await loadBDX(
 			"./plugins/AMCBuilder/export/" + args[0] + ".bdx",
 			function(statue, data) {
 				switch (statue) {
@@ -1522,22 +1528,22 @@ async function cmdImportHandle(sender, args) {
 						cmdCount++;
 						switch (data.type) {
 							case "setblock": {
-								if (
-									mc.setBlock(
-										startPos[0] + data.x,
-										startPos[1] + data.y,
-										startPos[2] + data.z,
-										AMCBPlayer.data.dimid,
-										data.block.indexOf(":") > -1 ?
-										data.block :
-										"minecraft:" + data.block,
-										data.data
-									)
-								) {
-									//
-								} else {
-									//TODO: 放置失败时
-								}
+                                    const blockMeta = ErrorIDList[
+                                        data.block
+                                    ] || [
+                                        data.block.indexOf(":") > -1
+                                            ? data.block
+                                            : "minecraft:" + data.block,
+                                        data.data,
+                                    ];
+                                    mc.setBlock(
+                                        startPos[0] + data.x,
+                                        startPos[1] + data.y,
+                                        startPos[2] + data.z,
+                                        AMCBPlayer.data.dimid,
+                                        blockMeta[0],
+                                        blockMeta[1] || data.data
+                                    );
 								break;
 							}
 							case "cb_data": {
