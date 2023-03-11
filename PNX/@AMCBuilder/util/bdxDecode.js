@@ -19,10 +19,11 @@ onlyOnceExecute(() => {
 loadJar("./libs/dec-0.1.2.jar");
 console.log("brotli dec-0.1.2 加载成功");
 
-import { BrotliInputStream } from "org.brotli.dec.BrotliInputStream";
 import { ByteArrayInputStream } from "java.io.ByteArrayInputStream";
 import { ByteArrayOutputStream } from "java.io.ByteArrayOutputStream";
 import { Arrays } from "java.util.Arrays";
+
+const BrotliInputStream  = Java.type("org.brotli.dec.BrotliInputStream");
 
 /**
  * 对Brotli压缩后的数据进行解压缩。
