@@ -39,10 +39,17 @@ AMCBuilder-LiteLoader 适用于大部分服务器，用于快速构建主城、�
 | `/amcb pos1`     | 设置点1             | OP  |
 | `/amcb pos2`     | 设置点2             | OP  |
 | `/amcb set <string: blockid> [int: litedata]` | 填充区域为指定方块 | OP  |
-| `/amcb import <string: filename> [-air] [--txt,--mcs]` | 导入本地建筑文件 | OP  |
+| `/amcb import <string: filename> [-air] [--txt,--mcs,--bdx]` | 导入本地建筑文件 | OP  |
 | `/amcb export <string: filename> [-air] [--txt,--mcs]` | 导出选区的建筑物到本地文件 | OP  |
 
 导出的本地文件保存在 `./plugins/AMCBuilder/export`
+
+### 本地导入教程
+
+`/amcb import` 打开UI 或者 `/amcb import 完整文件名 --mcs` 导入.mcstructure文件。
+
+> 请注意导入的文件需要放在`./plugins/AMCBuilder/export`目录中。
+
 
 ## 注意事项
 
